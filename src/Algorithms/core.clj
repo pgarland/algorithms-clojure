@@ -40,6 +40,9 @@
   (assoc a i (a j) j (a i)))
 
 (defn max-heapify [array root]
+  "Move the value from the root index of array into the proper place
+to make array a max heap. Assumes that the left and right branches the
+tree rooted at root are valid max heaps."
   (let [left (left-index root)
         right (right-index root)
         valid-indices (filter #(< % (count array))
