@@ -45,7 +45,6 @@
         valid-indices (filter #(< % (count array))
                               [root left right])
         max-index (apply (partial max-key array) valid-indices)]
-    (print root valid-indices max-index)
     (if (not (= max-index root))
       (max-heapify (swap array root max-index) max-index)
       array)))
