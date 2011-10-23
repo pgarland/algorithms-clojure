@@ -54,4 +54,14 @@ tree rooted at root are valid max heaps."
     (if (not (= max-index root))
       (max-heapify (swap array root max-index) max-index)
       array)))
+
+(defn build-max-heap [a]
+  "Create a max heap from the array given"
+  (loop [array a
+         index (dec (quot (count array) 2))]
+    (if (> index 0)
+      (let [new-index (dec index)]
+        (recur (max-heapify array new-index) new-index))
+      array)))
+
         
