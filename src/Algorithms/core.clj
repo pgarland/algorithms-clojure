@@ -5,15 +5,15 @@
   (quot (dec index) 2))
 
 (defn left-index [index]
-  "Return the index of the left node of the current node"
+  "Return the index of the left child of the root"
   (inc (* 2 index)))
 
 (defn right-index [index]
-  "Return the index of the left node of the current node"
+  "Return the index of the right child of the root"
   (* (inc index) 2))
 
 (defn test-heap
-  "Apply test-fn to every node in the heap"
+  "Return true if test-fn is true of every node in the heap, false otherwise"
   ;;; If no index has given, we're at the root of the tree; test both branches
   ([heap test-fn] (and (test-heap heap (left-index 0) test-fn)
                        (test-heap heap (right-index 0) test-fn)))
