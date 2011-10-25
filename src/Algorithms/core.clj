@@ -1,5 +1,7 @@
 (ns Algorithms.core)
 
+;;; Code for dealing with heaps
+
 (defn parent-index [index]
   "Return the parent index of current node"
   (quot (dec index) 2))
@@ -42,26 +44,49 @@
   "Return a vector where the values in indices i and j have been swapped"
   (assoc a i (a j) j (a i)))
 
-(defn max-heapify [array root]
-  "Move the value from the root index of array into the proper place
-to make array a max heap. Assumes that the left and right branches the
-tree rooted at root are valid max heaps."
+
+;;; heapify is used to implement max-heapify and min-heapify by
+;;; calling heapify with select-fun as max-key and min-key,
+;;; respectively
+(defn heapify [array root select-fun]
+  "Move the value from the root index of array into the index
+determined by select fun. Assumes that the left and right branches of
+the tree rooted at root are already ordered by select fun."
   (let [left (left-index root)
         right (right-index root)
         valid-indices (filter #(< % (count array))
                               [root left right])
-        max-index (apply (partial max-key array) valid-indices)]
-    (if (not (= max-index root))
-      (max-heapify (swap array root max-index) max-index)
+        selected-index (apply (partial select-fun array) valid-indices)]
+    (if (not (= selected-index root))
+      (heapify (swap array root selected-index) selected-index select-fun) 
       array)))
 
-(defn build-max-heap [a]
-  "Create a max heap from the array given"
+(defn max-heapify [array root]
+  "Move the value from the root index of array into the proper place
+to make array a max heap. Assumes that the left and right branches the
+tree rooted at root are valid max heaps."
+  (heapify array root max-key))
+  
+(defn min-heapify [array root]
+    "Move the value from the root index of array into the proper place
+to make array a min heap. Assumes that the left and right branches the
+tree rooted at root are valid min heaps."
+  (heapify array root min-key))
+
+(defn build-heap [a heapify-fun]
+  "Create a heap from the array and function given"
   (loop [array a
          index (dec (quot (count array) 2))]
     (if (> index 0)
       (let [new-index (dec index)]
-        (recur (max-heapify array new-index) new-index))
+        (recur (heapify-fun array new-index) new-index))
       array)))
 
-        
+(defn build-max-heap [a]
+  "Create a max heap from the array given"
+  (build-heap a max-heapify))
+
+(defn build-min-heap [a]
+  "Create a max heap from the array given"
+  (build-heap a min-heapify))
+
