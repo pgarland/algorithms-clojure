@@ -52,7 +52,7 @@
   "Move the value from the root index of array into the index
 determined by select fun. Assumes that the left and right branches of
 the tree rooted at root are already ordered by select fun."
-  (let [left (left-index root)
+  (let [left (left-index root)o
         right (right-index root)
         valid-indices (filter #(< % (count array))
                               [root left right])
@@ -90,3 +90,16 @@ tree rooted at root are valid min heaps."
   "Create a max heap from the array given"
   (build-heap a min-heapify))
 
+;;; This is a bad implementation because it's limited by the size of
+;;; the JVM stack. It will blow up on large arrays
+(defn heapsort [a]
+  "Sort a into an increasing array"
+  (letfn [(iter [heap]
+            (if (= (count heap) 1)
+              heap
+              (let [heap-end (dec (count heap))
+                    swapped-heap (swap heap 0 heap-end)
+                    new-heap (subvec swapped-heap 0 heap-end)]
+                (conj (iter (max-heapify new-heap 0))
+                      (last swapped-heap)))))]
+    (iter (build-max-heap a))))
