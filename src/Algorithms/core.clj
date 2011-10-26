@@ -90,16 +90,14 @@ tree rooted at root are valid min heaps."
   "Create a max heap from the array given"
   (build-heap a min-heapify))
 
-;;; This is a bad implementation because it's limited by the size of
-;;; the JVM stack. It will blow up on large arrays
 (defn heapsort [a]
-  "Sort a into an increasing array"
-  (letfn [(iter [heap]
-            (if (= (count heap) 1)
-              heap
-              (let [heap-end (dec (count heap))
-                    swapped-heap (swap heap 0 heap-end)
-                    new-heap (subvec swapped-heap 0 heap-end)]
-                (conj (iter (max-heapify new-heap 0))
-                      (last swapped-heap)))))]
-    (iter (build-max-heap a))))
+  "Sort a into an increasing vector"
+  (loop [heap (build-max-heap a)
+         acc []]
+         (if (= (count heap) 1)
+           (reverse (conj acc (last heap)))
+           (let [heap-end (dec (count heap))
+                 swapped-heap (swap heap 0 heap-end)
+                 new-heap (subvec swapped-heap 0 heap-end)]
+             (recur (max-heapify new-heap 0)
+                    (conj acc (last swapped-heap)))))))
