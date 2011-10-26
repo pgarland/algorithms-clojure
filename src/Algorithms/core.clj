@@ -101,3 +101,13 @@ tree rooted at root are valid min heaps."
                  new-heap (subvec swapped-heap 0 heap-end)]
              (recur (min-heapify new-heap 0)
                     (conj acc (last swapped-heap)))))))
+
+(defn heap-max [heap]
+  "Return the largest value from the heap"
+  (heap 0))
+
+(defn heap-extract-max [heap]
+  "Remove the largest element from the heap, returning the rest as a max heap"
+  (let [last-elt (dec (count heap))
+        new-heap (subvec (assoc heap 0 (heap last-elt)) 0 last-elt)]
+    (max-heapify new-heap 0)))
