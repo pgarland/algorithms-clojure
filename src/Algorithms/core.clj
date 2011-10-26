@@ -74,7 +74,7 @@ tree rooted at root are valid min heaps."
   (heapify array root min-key))
 
 (defn build-heap [a heapify-fun]
-  "Create a heap from the array and function given"
+  "Create a heap from the vector and function given"
   (loop [array a
          index (quot (count array) 2)]
     (if (> index 0)
@@ -83,11 +83,11 @@ tree rooted at root are valid min heaps."
       array)))
 
 (defn build-max-heap [a]
-  "Create a max heap from the array given"
+  "Create a max heap from the vector given"
   (build-heap a max-heapify))
 
 (defn build-min-heap [a]
-  "Create a max heap from the array given"
+  "Create a min heap from the vector given"
   (build-heap a min-heapify))
 
 (defn heapsort [a]
