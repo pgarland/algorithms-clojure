@@ -52,7 +52,7 @@
   "Move the value from the root index of array into the index
 determined by select fun. Assumes that the left and right branches of
 the tree rooted at root are already ordered by select fun."
-  (let [left (left-index root)o
+  (let [left (left-index root)
         right (right-index root)
         valid-indices (filter #(< % (count array))
                               [root left right])
@@ -76,7 +76,7 @@ tree rooted at root are valid min heaps."
 (defn build-heap [a heapify-fun]
   "Create a heap from the array and function given"
   (loop [array a
-         index (dec (quot (count array) 2))]
+         index (quot (count array) 2)]
     (if (> index 0)
       (let [new-index (dec index)]
         (recur (heapify-fun array new-index) new-index))
@@ -92,12 +92,12 @@ tree rooted at root are valid min heaps."
 
 (defn heapsort [a]
   "Sort a into an increasing vector"
-  (loop [heap (build-max-heap a)
+  (loop [heap (build-min-heap a)
          acc []]
          (if (= (count heap) 1)
-           (reverse (conj acc (last heap)))
+           (conj acc (last heap))
            (let [heap-end (dec (count heap))
                  swapped-heap (swap heap 0 heap-end)
                  new-heap (subvec swapped-heap 0 heap-end)]
-             (recur (max-heapify new-heap 0)
+             (recur (min-heapify new-heap 0)
                     (conj acc (last swapped-heap)))))))
