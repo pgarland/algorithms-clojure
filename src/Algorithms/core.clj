@@ -26,10 +26,14 @@
                        (test-heap heap (right-index 0) test-fn)))
   ;;; If given an index, check to see if we've gone past the bottom of
   ;;; the tree. If we haven't, test the root, as well as the left and right branches
-  ([heap root-index test-fn] (or (> root-index (count heap))
-                                 (and (test-fn heap root-index)
-                                      (test-heap heap (left-index root-index) test-fn)
-                                      (test-heap heap (right-index root-index) test-fn)))))
+  ([heap root-index test-fn]
+     (println root-index)
+     (println (count heap))
+     (println)
+     (or (> root-index (dec (count heap)))
+         (and (test-fn heap root-index)
+              (test-heap heap (left-index root-index) test-fn)
+              (test-heap heap (right-index root-index) test-fn)))))
 
 
 (defn max-heap? [heap]
