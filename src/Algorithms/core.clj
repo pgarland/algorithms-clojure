@@ -121,13 +121,14 @@ tree rooted at root are valid min heaps."
         new-heap (subvec (assoc heap 0 (heap last-elt)) 0 last-elt)]
     (max-heapify new-heap 0)))
 
-(defn heap-increase-key [heap i key]
-  (loop [new-heap (assoc heap i key) index i]
-    ;; Walk up the heap, exchanging elements until it's restored to
+(defn heap-increase-key [heap index key]
+  (loop [new-heap (assoc heap index key)
+         i index]
+    ;; Walk up the heap from i, exchanging elements until it's restored to
     ;; being a valid max heap
-    (if (or (< index 0)
+    (if (or (< i 0)
             (> (new-heap (parent-index new-heap i))
                (new-heap i)))
-      heap
+      new-heap
       (recur (swap new-heap i (parent-index new-heap i))
              (parent-index new-heap i)))))
