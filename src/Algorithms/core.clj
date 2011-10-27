@@ -1,5 +1,10 @@
 (ns Algorithms.core)
 
+;; The algorithms are based on discussion and pseudocode in:
+;; Introduction to Algorithms (3rd Edition)
+;; Cormen TH, Leiserson CE, Rivest, RL, and Stein C
+;; http://mitpress.mit.edu/algorithms/
+
 ;;; Code for dealing with heaps
 
 (defn parent-index [index]
@@ -111,3 +116,4 @@ tree rooted at root are valid min heaps."
   (let [last-elt (dec (count heap))
         new-heap (subvec (assoc heap 0 (heap last-elt)) 0 last-elt)]
     (max-heapify new-heap 0)))
+
