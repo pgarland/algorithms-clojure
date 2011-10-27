@@ -132,3 +132,8 @@ tree rooted at root are valid min heaps."
       new-heap
       (recur (swap new-heap i (parent-index new-heap i))
              (parent-index new-heap i)))))
+
+(defn max-heap-insert [heap key]
+  "Insert key into heap, maintaing the heap property"
+  (let [new-heap (conj heap key)]
+    (heap-increase-key new-heap (dec (count new-heap)) key)))
