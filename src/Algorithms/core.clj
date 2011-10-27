@@ -126,12 +126,12 @@ tree rooted at root are valid min heaps."
          i index]
     ;; Walk up the heap from i, exchanging elements until it's restored to
     ;; being a valid max heap
-    (if (or (< i 0)
-            (> (new-heap (parent-index new-heap i))
+    (if (or (= i 0)
+            (> (new-heap (parent-index i))
                (new-heap i)))
       new-heap
-      (recur (swap new-heap i (parent-index new-heap i))
-             (parent-index new-heap i)))))
+      (recur (swap new-heap i (parent-index i))
+             (parent-index i)))))
 
 (defn max-heap-insert [heap key]
   "Insert key into heap, maintaing the heap property"
