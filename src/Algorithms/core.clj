@@ -135,5 +135,5 @@ tree rooted at root are valid min heaps."
 
 (defn max-heap-insert [heap key]
   "Insert key into heap, maintaing the heap property"
-  (let [new-heap (conj heap key)]
+  (let [new-heap (conj heap java.lang.Long/MIN_VALUE)]
     (heap-increase-key new-heap (dec (count new-heap)) key)))
