@@ -122,6 +122,7 @@ tree rooted at root are valid min heaps."
     (max-heapify new-heap 0)))
 
 (defn heap-increase-key [heap index key]
+  {:pre [(> key (heap index))]}
   (loop [new-heap (assoc heap index key)
          i index]
     ;; Walk up the heap from i, exchanging elements until it's restored to
