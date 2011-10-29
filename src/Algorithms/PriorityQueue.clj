@@ -12,7 +12,7 @@
 (extend-type MaxPriorityQueue
   PriorityQueue
   (insert [Q val]
-    (MaxPriorityQueue. (Maxheap-insert (:heap Q val))))
+    (MaxPriorityQueue. (max-heap-insert (:heap Q val))))
   (peek [Q]
     (heap-max (:heap Q)))
   (pop [Q]
@@ -25,7 +25,7 @@
 (extend-type MinPriorityQueue
   PriorityQueue
   (insert [Q val]
-    (MinPriorityQueue. (Minheap-insert (:heap Q val))))
+    (MinPriorityQueue. (min-heap-insert (:heap Q val))))
   (peek [Q]
     (heap-min (:heap Q)))
   (pop [Q]
