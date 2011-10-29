@@ -111,6 +111,23 @@ tree rooted at root are valid min heaps."
              (recur (min-heapify new-heap 0)
                     (conj acc (last swapped-heap)))))))
 
+(defn heap-pop [heap heapify-fn]
+  (let [last-idx (dec (count heap))
+        new-heap (subvec (assoc heap 0 (heap last-idx)) 0 last-idx)]
+    (heapify-fn new-heap 0)))
+
+(defn heap-set-val [heap index key cmp-fn]
+  (loop [new-heap (assoc heap index key)
+         i index]
+    ;; Walk up the heap from i, exchanging elements until it's restored to
+    ;; being a valid heap, as ordered my cmp-fn
+    (if (or (= i 0)
+            (cmp-fn (new-heap (parent-index i))
+                    (new-heap i)))
+      new-heap
+      (recur (swap new-heap i (parent-index i))
+             (parent-index i)))))
+
 (defn heap-max [heap]
   "Return the largest value from the heap"
   (heap 0))
@@ -123,18 +140,27 @@ tree rooted at root are valid min heaps."
 
 (defn heap-increase-key [heap index key]
   {:pre [(> key (heap index))]}
-  (loop [new-heap (assoc heap index key)
-         i index]
-    ;; Walk up the heap from i, exchanging elements until it's restored to
-    ;; being a valid max heap
-    (if (or (= i 0)
-            (> (new-heap (parent-index i))
-               (new-heap i)))
-      new-heap
-      (recur (swap new-heap i (parent-index i))
-             (parent-index i)))))
+  (heap-set-val heap index key >))
 
 (defn max-heap-insert [heap key]
   "Insert key into heap, maintaing the heap property"
   (let [new-heap (conj heap java.lang.Long/MIN_VALUE)]
+    (heap-increase-key new-heap (dec (count new-heap)) key)))
+
+(defn heap-min [min-heap]
+  "Remove the smallest element from the heap, returning the rest as a min heap"
+  (min-heap 0))
+
+(defn heap-extract-min [heap]
+  "Remove the largest element from the heap, returning the rest as a max heap"
+  (heap-pop heap min-heapify))
+
+(defn heap-decrease-key [heap index key]
+  "Return the heap with the value in index set to key"
+  {:pre [(< key (heap index))]}
+  (heap-set-val heap index key <))
+
+(defn min-heap-insert [heap key]
+  "Insert key into heap, maintaing the heap property"
+  (let [new-heap (conj heap java.lang.Long/MAX_VALUE)]
     (heap-increase-key new-heap (dec (count new-heap)) key)))
