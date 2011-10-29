@@ -165,34 +165,34 @@ tree rooted at root are valid min heaps."
   (let [new-heap (conj heap java.lang.Long/MAX_VALUE)]
     (heap-increase-key new-heap (dec (count new-heap)) key)))
 
-(defprotocol priority-queue
+(defprotocol PriorityQueue
   (insert [Q val])
   (peek [Q])
   (pop [Q])
   (set-val [Q idx val]))
 
-(defrecord max-priority-queue [heap])
+(defrecord MaxPriorityQueue [heap])
 
-(extend-type max-priority-queue
-  priority-queue
+(extend-type MaxPriorityQueue
+  PriorityQueue
   (insert [Q val]
-    (max-priority-queue. (max-heap-insert (:heap Q val))))
+    (MaxPriorityQueue. (Maxheap-insert (:heap Q val))))
   (peek [Q]
     (heap-max (:heap Q)))
   (pop [Q]
-    (max-priority-queue. (heap-extract-max (:heap Q))))
+    (MaxPriorityQueue. (heap-extract-max (:heap Q))))
   (set-val [Q idx val]
-    (max-priority-queue. (heap-increase-key (:heap Q) idx val))))
+    (MaxPriorityQueue. (heap-increase-key (:heap Q) idx val))))
 
-(defrecord min-priority-queue [heap])
+(defrecord MinPriorityQueue [heap])
 
-(extend-type min-priority-queue
-  priority-queue
+(extend-type MinPriorityQueue
+  PriorityQueue
   (insert [Q val]
-    (min-priority-queue. (min-heap-insert (:heap Q val))))
+    (MinPriorityQueue. (Minheap-insert (:heap Q val))))
   (peek [Q]
     (heap-min (:heap Q)))
   (pop [Q]
-    (min-priority-queue. (heap-extract-min (:heap Q))))
+    (MinPriorityQueue. (heap-extract-min (:heap Q))))
   (set-val [Q idx val]
-    (min-priority-queue. (heap-decrease-key (:heap Q) idx val))))
+    (MinPriorityQueue. (heap-decrease-key (:heap Q) idx val))))
