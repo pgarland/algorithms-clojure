@@ -164,3 +164,35 @@ tree rooted at root are valid min heaps."
   "Insert key into heap, maintaing the heap property"
   (let [new-heap (conj heap java.lang.Long/MAX_VALUE)]
     (heap-increase-key new-heap (dec (count new-heap)) key)))
+
+(defprotocol priority-queue
+  (insert [Q val])
+  (peek [Q])
+  (pop [Q])
+  (set-val [Q idx val]))
+
+(defrecord max-priority-queue [heap])
+
+(extend-type max-priority-queue
+  priority-queue
+  (insert [Q val]
+    (max-priority-queue. (max-heap-insert (:heap Q val))))
+  (peek [Q]
+    (heap-max (:heap Q)))
+  (pop [Q]
+    (max-priority-queue. (heap-extract-max (:heap Q))))
+  (set-val [Q idx val]
+    (max-priority-queue. (heap-increase-key (:heap Q) idx val))))
+
+(defrecord min-priority-queue [heap])
+
+(extend-type min-priority-queue
+  priority-queue
+  (insert [Q val]
+    (min-priority-queue. (min-heap-insert (:heap Q val))))
+  (peek [Q]
+    (heap-min (:heap Q)))
+  (pop [Q]
+    (min-priority-queue. (heap-extract-min (:heap Q))))
+  (set-val [Q idx val]
+    (min-priority-queue. (heap-decrease-key (:heap Q) idx val))))
