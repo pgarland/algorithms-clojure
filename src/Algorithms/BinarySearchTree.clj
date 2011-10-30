@@ -24,8 +24,10 @@
   (walk-fn t #(println (:val %))))
 
 (defn search [t val]
-  (cond (or (= t nil) (= (:val t) val)) t
-        (< val (:val t))
-        (search (:left t) val)
-        :else (search (:right t) val)))
+  (if (or (= t nil) (= (:val t) val))
+    (loop [tree t]
+      (let [branch (if (< (:val tree) val)
+                     (:left tree)
+                     (:right tree))]
+            (recur branch)))))
 
