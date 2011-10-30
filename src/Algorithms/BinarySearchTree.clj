@@ -29,5 +29,16 @@
       (let [branch (if (< (:val tree) val)
                      (:left tree)
                      (:right tree))]
-            (recur branch)))))
+        (recur branch)))))
 
+(defn minimum [t]
+  "Return the node contailing the smallest value"
+  (if (= (:left t) nil)
+    t
+    (recur (:left t))))
+
+(defn maximum [t]
+  "Return the node contailing the largest value"
+  (if (= (:right t) nil)
+    t
+    (recur (:right t))))
