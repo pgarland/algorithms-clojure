@@ -2,22 +2,22 @@
 
 (defrecord BinarySearchTree [val left right])
 
-(defn inorder-tree-walk [t node-fn]
+(defn walk-tree-inorder [t node-fn]
   (when t
-    (do (inorder-tree-walk (:left t) node-fn)
+    (do (walk-tree-inorder (:left t) node-fn)
         (node-fn t)
-        (inorder-tree-walk (:right t) node-fn))))
+        (walk-tree-inorder (:right t) node-fn))))
 
-(defn preorder-tree-walk [t node-fn]
+(defn walk-tree-post-order [t node-fn]
   (when t
     (do (node-fn t)
-        (inorder-tree-walk (:left t) node-fn)
-        (inorder-tree-walk (:right t) node-fn))))
+        (walk-tree-preorder (:left t) node-fn)
+        (walk-tree-preorder (:right t) node-fn))))
 
-(defn postorder-tree-walk [t node-fn]
+(defn walk-tree-postorder [t node-fn]
   (when t
-    (do (inorder-tree-walk (:left t) node-fn)
-        (inorder-tree-walk (:right t) node-fn)
+    (do (walk-tree-postorder (:left t) node-fn)
+        (walk-tree-postorder (:right t) node-fn)
         (node-fn t))))
 
 (defn print-tree [t walk-fn]
