@@ -9,7 +9,7 @@
         (node-fn t)
         (walk-tree-inorder (:right t) node-fn))))
 
-(defn walk-tree-post-order [t node-fn]
+(defn walk-tree-preorder [t node-fn]
     "Visit each node of the tree in preorder, calling node-fn on each"
   (when t
     (do (node-fn t)
@@ -47,3 +47,8 @@
   (if (= (:right t) nil)
     t
     (recur (:right t))))
+
+(defn leaf? [t]
+  "True if t is a leaf node, false otherwise"
+  (and (= (:left t) nil)
+       (= (:right t) nil)))
