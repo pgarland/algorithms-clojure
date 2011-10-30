@@ -6,4 +6,4 @@ pom.xml
 .lein-deps-sum
 *~
 *#
-/src/data.clj
+/src/Algorithms/data.clj
