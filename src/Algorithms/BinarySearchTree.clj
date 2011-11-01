@@ -1,4 +1,4 @@
-(ns Algorithms.BinarySearchTree)
+o(ns Algorithms.BinarySearchTree)
 
 (defrecord BinarySearchTree [val left right])
 
@@ -52,3 +52,6 @@
   "True if t is a leaf node, false otherwise"
   (and (= (:left t) nil)
        (= (:right t) nil)))
+
+(defn successor [t]
+  (minimum (:right t)))
