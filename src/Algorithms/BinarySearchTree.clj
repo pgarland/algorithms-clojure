@@ -1,23 +1,23 @@
 (ns Algorithms.BinarySearchTree)
 
-(defrecord BinarySearchTree [val left right parent])
+(defrecord BinarySearchTree [val left right path])
 
 (defn populate-parents
   "Return t with the parent field filled in"
-  ([tree] (populate-parents tree tree []))
-  ([tree top path]
-     (cond (leaf? tree) (BinarySearchTree. (:val tree) nil nil path) 
+  ([tree] (populate-parents tree []))
+  ([tree path]
+     (cond (leaf? tree) (BinarySearchTree. (:val tree) nil nil path)
            (= (:left tree) nil) (BinarySearchTree. (:val tree)
                                                    nil
-                                                   (populate-parents (:right tree) top (conj path :right))
+                                                   (populate-parents (:right tree) (conj path :right))
                                                    path)
            (= (:right tree) nil) (BinarySearchTree. (:val tree)
-                                                    (populate-parents (:left tree) top (conj path :left))
+                                                    (populate-parents (:left tree) (conj path :left))
                                                     nil
                                                     path)
            :else (BinarySearchTree. (:val tree)
-                                    (populate-parents (:left tree) top (conj path :left))
-                                    (populate-parents (:right tree) top (conj path :right))
+                                    (populate-parents (:left tree) (conj path :left))
+                                    (populate-parents (:right tree) (conj path :right))
                                     path))))
 
 (defn walk-tree-inorder [t node-fn]
