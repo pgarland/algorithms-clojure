@@ -73,3 +73,12 @@
 
 (defn successor [t]
   (minimum (:right t)))
+
+(defn follow-directions
+  "Return the node from tree arrived at by following the directions in path"
+  ([tree path] (if (not (seq path))
+                 nil
+                 (follow-directions tree (rest path) ((first path) tree))))
+  ([tree path acc] (if (not (seq path))
+                     acc
+                     (follow-directions tree (rest path) ((first path) tree)))))
